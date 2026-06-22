@@ -207,10 +207,26 @@ function Hero() {
 
           <div className="lg:col-span-7 order-2">
             <p className="eyebrow mb-5">Stockholm · Business Development · Strategy</p>
-            <h1 className="text-[2rem] leading-[1.08] sm:text-4xl md:text-[2.75rem] lg:text-[3.25rem] text-foreground">
-              Turning <em className="not-italic text-primary">research</em>,{" "}
-              <em className="not-italic text-accent">relationships</em>, and opportunities into
-              meaningful growth.
+            <h1 className="font-display text-[2.25rem] leading-[1.05] sm:text-5xl md:text-[3.25rem] lg:text-[3.75rem] text-foreground">
+              Turning research, relationships, and opportunities into{" "}
+              <span className="relative inline-block">
+                <em className="italic font-display text-accent">meaningful</em>
+                <svg
+                  aria-hidden
+                  viewBox="0 0 200 12"
+                  preserveAspectRatio="none"
+                  className="absolute left-0 -bottom-1 w-full h-2 text-accent/60"
+                >
+                  <path
+                    d="M2 8 Q 50 2, 100 6 T 198 5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>{" "}
+              growth.
             </h1>
             <p className="mt-6 text-base md:text-lg text-foreground/75 max-w-xl leading-relaxed">
               Hi, I'm Samrawit — most people call me <strong className="text-foreground">Sam</strong>.
