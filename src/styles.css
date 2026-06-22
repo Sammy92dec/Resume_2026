@@ -35,11 +35,12 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-olive: var(--olive);
-  --color-clay: var(--clay);
-  --color-sand: var(--sand);
-  --color-cream: var(--cream);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
   --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-paper: var(--paper);
 }
 
 :root {
