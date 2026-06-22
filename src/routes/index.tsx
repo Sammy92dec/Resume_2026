@@ -83,67 +83,65 @@ function Nav() {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/85 backdrop-blur-md border-b border-border/60"
-          : "bg-transparent"
+          ? "bg-background/95 backdrop-blur-md border-b border-border/50 shadow-[0_2px_20px_-10px_rgba(0,0,0,0.08)]"
+          : "bg-background/80 backdrop-blur-sm"
       }`}
     >
-      <div className="container-x flex items-center justify-between gap-4 h-16 md:h-20">
-        <a href="#top" className="flex items-center gap-2 min-w-0">
-          <span className="h-7 w-7 rounded-full bg-primary text-primary-foreground grid place-items-center font-display text-sm">
-            S
-          </span>
-          <span className="font-display text-base md:text-lg tracking-tight text-foreground truncate">
-            Samrawit Tekheste
+      <div className="container-x flex items-center justify-between gap-4 h-16 md:h-[4.5rem]">
+        <a href="#top" className="flex items-center min-w-0 group">
+          <span className="font-display text-lg md:text-xl tracking-[0.18em] uppercase text-foreground truncate">
+            Samrawit
           </span>
         </a>
-        <div className="flex items-center gap-2 md:gap-6">
-          <nav className="hidden lg:flex items-center gap-7">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="text-sm text-foreground/75 hover:text-foreground transition-colors"
-              >
-                {l.label}
-              </a>
-            ))}
-          </nav>
+        <nav className="hidden lg:flex items-center gap-9 absolute left-1/2 -translate-x-1/2">
+          {links.map((l) => (
+            <a
+              key={l.href}
+              href={l.href}
+              className="text-[15px] text-foreground/80 hover:text-foreground transition-colors relative group"
+            >
+              {l.label}
+              <span className="absolute left-0 -bottom-1 h-px w-0 bg-accent group-hover:w-full transition-all duration-300" />
+            </a>
+          ))}
+        </nav>
+        <div className="flex items-center gap-3">
           <a
             href={LINKEDIN_URL}
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn profile"
-            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/70 hover:text-foreground hover:border-foreground/40 transition-colors"
+            className="hidden sm:inline-flex h-9 w-9 items-center justify-center rounded-full text-foreground/60 hover:text-foreground transition-colors"
           >
-            <Linkedin size={16} />
+            <Linkedin size={17} />
           </a>
           <a
             href="/Samrawit-Tekheste-Resume.pdf"
-            className="inline-flex items-center gap-2 rounded-full bg-foreground text-background px-4 md:px-5 py-2.5 text-sm font-medium hover:bg-foreground/90 transition-colors"
+            className="inline-flex items-center gap-2 rounded-full bg-accent text-accent-foreground px-5 md:px-6 py-2.5 text-sm font-medium hover:bg-accent/90 hover:scale-[1.02] transition-all shadow-[0_4px_14px_-4px_oklch(0.62_0.09_55/0.4)]"
           >
             <Download size={14} />
             <span className="hidden sm:inline">Resume</span>
           </a>
           <button
             onClick={() => setOpen((v) => !v)}
-            className="lg:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-border"
+            className="lg:hidden inline-flex h-9 w-9 items-center justify-center rounded-full text-foreground/70"
             aria-label="Menu"
           >
-            {open ? <Minus size={16} /> : <Plus size={16} />}
+            {open ? <Minus size={18} /> : <Plus size={18} />}
           </button>
         </div>
       </div>
       {open && (
-        <div className="lg:hidden bg-background/95 backdrop-blur-md border-b border-border">
-          <nav className="container-x py-4 flex flex-col gap-3">
+        <div className="lg:hidden bg-background/98 backdrop-blur-md border-b border-border">
+          <nav className="container-x py-5 flex flex-col gap-4">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="text-sm text-foreground/80 py-1"
+                className="font-display text-xl text-foreground/85 py-1"
               >
                 {l.label}
               </a>
@@ -209,10 +207,26 @@ function Hero() {
 
           <div className="lg:col-span-7 order-2">
             <p className="eyebrow mb-5">Stockholm · Business Development · Strategy</p>
-            <h1 className="text-[2rem] leading-[1.08] sm:text-4xl md:text-[2.75rem] lg:text-[3.25rem] text-foreground">
-              Turning <em className="not-italic text-primary">research</em>,{" "}
-              <em className="not-italic text-accent">relationships</em>, and opportunities into
-              meaningful growth.
+            <h1 className="font-display text-[2.25rem] leading-[1.05] sm:text-5xl md:text-[3.25rem] lg:text-[3.75rem] text-foreground">
+              Turning research, relationships, and opportunities into{" "}
+              <span className="relative inline-block">
+                <em className="italic font-display text-accent">meaningful</em>
+                <svg
+                  aria-hidden
+                  viewBox="0 0 200 12"
+                  preserveAspectRatio="none"
+                  className="absolute left-0 -bottom-1 w-full h-2 text-accent/60"
+                >
+                  <path
+                    d="M2 8 Q 50 2, 100 6 T 198 5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>{" "}
+              growth.
             </h1>
             <p className="mt-6 text-base md:text-lg text-foreground/75 max-w-xl leading-relaxed">
               Hi, I'm Samrawit — most people call me <strong className="text-foreground">Sam</strong>.
