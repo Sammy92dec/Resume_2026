@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Linkedin,
   Download,
@@ -9,7 +9,14 @@ import {
   Plus,
   Minus,
   MapPin,
+  FileText,
+  Play,
+  ExternalLink,
+  Presentation,
+  Image as ImageIcon,
 } from "lucide-react";
+import { PROJECTS, type Project, type Evidence } from "@/data/projects";
+import { Lightbox, type LightboxImage } from "@/components/Lightbox";
 
 const LINKEDIN_URL = "https://www.linkedin.com/in/samrawit-tekheste/";
 const EMAIL = "samrawit.samuel.tk@gmail.com";
@@ -21,9 +28,9 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Samrawit Tekheste — Sweden-based business development professional focused on sustainability, digital innovation, and practical solutions to complex challenges.",
+          "Samrawit Tekheste — Sweden-based business development professional with interests in sustainability, digital innovation, market research, and practical problem solving.",
       },
-      { property: "og:title", content: "Samrawit Tekheste — Business Development & Sustainability" },
+      { property: "og:title", content: "Samrawit Tekheste — Portfolio" },
       {
         property: "og:description",
         content:
@@ -37,9 +44,11 @@ export const Route = createFileRoute("/")({
 /* ---------------- Nav ---------------- */
 
 const NAV = [
+  { label: "Home", href: "#top" },
   { label: "About", href: "#about" },
-  { label: "Portfolio", href: "#portfolio" },
   { label: "Experience", href: "#experience" },
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "Skills", href: "#skills" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -58,26 +67,21 @@ function Nav() {
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? "bg-background/85 backdrop-blur-md border-b border-border/60"
+          ? "bg-background/90 backdrop-blur-md border-b border-border"
           : "bg-transparent"
       }`}
     >
       <div className="container-x flex items-center justify-between h-16 md:h-20">
-        <a href="#top" className="group flex items-baseline gap-2 min-w-0">
-          <span className="font-display text-base md:text-lg tracking-[0.22em] uppercase text-foreground">
-            Samrawit
-          </span>
-          <span className="hidden md:inline text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
-            Tekheste
-          </span>
+        <a href="#top" className="font-display text-base md:text-lg tracking-[0.18em] uppercase text-foreground">
+          Samrawit <span className="text-muted-foreground font-light">Tekheste</span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-10">
+        <nav className="hidden md:flex items-center gap-8">
           {NAV.map((n) => (
             <a
               key={n.href}
               href={n.href}
-              className="text-[13px] tracking-wide text-muted-foreground hover:text-foreground transition-colors"
+              className="text-[13px] tracking-wide text-muted-foreground hover:text-accent transition-colors"
             >
               {n.label}
             </a>
@@ -90,13 +94,13 @@ function Nav() {
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
-            className="h-9 w-9 grid place-items-center rounded-full border border-border text-muted-foreground hover:text-accent hover:border-accent/60 transition"
+            className="h-9 w-9 grid place-items-center rounded-full border border-border text-muted-foreground hover:text-accent hover:border-accent/50 transition"
           >
             <Linkedin className="h-4 w-4" />
           </a>
           <a
             href="/cv.pdf"
-            className="inline-flex items-center gap-2 h-9 px-4 rounded-full border border-accent/40 text-accent text-[12px] tracking-[0.18em] uppercase hover:bg-accent hover:text-accent-foreground transition"
+            className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-accent text-accent-foreground text-[11px] tracking-[0.18em] uppercase hover:opacity-90 transition"
           >
             <Download className="h-3.5 w-3.5" /> CV
           </a>
@@ -112,14 +116,14 @@ function Nav() {
       </div>
 
       {open && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-border">
+        <div className="md:hidden bg-background/98 backdrop-blur-md border-t border-border">
           <div className="container-x py-6 flex flex-col gap-5">
             {NAV.map((n) => (
               <a
                 key={n.href}
                 href={n.href}
                 onClick={() => setOpen(false)}
-                className="text-sm tracking-wide text-muted-foreground hover:text-foreground"
+                className="text-sm tracking-wide text-muted-foreground hover:text-accent"
               >
                 {n.label}
               </a>
@@ -135,7 +139,7 @@ function Nav() {
               </a>
               <a
                 href="/cv.pdf"
-                className="inline-flex items-center gap-2 h-9 px-4 rounded-full border border-accent/40 text-accent text-[12px] tracking-[0.18em] uppercase"
+                className="inline-flex items-center gap-2 h-9 px-4 rounded-full bg-accent text-accent-foreground text-[11px] tracking-[0.18em] uppercase"
               >
                 <Download className="h-3.5 w-3.5" /> CV
               </a>
@@ -151,59 +155,45 @@ function Nav() {
 
 function Hero() {
   return (
-    <section id="top" className="relative pt-36 md:pt-44 pb-24 md:pb-32 overflow-hidden">
-      {/* subtle gold glow */}
-      <div
-        aria-hidden
-        className="absolute -top-40 left-1/2 -translate-x-1/2 h-[520px] w-[820px] rounded-full opacity-[0.10] blur-3xl"
-        style={{ background: "radial-gradient(closest-side, var(--gold), transparent)" }}
-      />
+    <section id="top" className="relative pt-32 md:pt-40 pb-20 md:pb-28">
       <div className="container-x relative">
-        <div className="flex items-center gap-3 mb-10">
+        <div className="flex items-center gap-3 mb-8">
           <span className="h-px w-10 bg-accent/60" />
           <span className="eyebrow text-accent">Portfolio · 2026</span>
         </div>
 
-        <h1 className="font-display text-[2.6rem] leading-[1.05] sm:text-6xl md:text-[5.25rem] md:leading-[0.98] tracking-[-0.02em] text-foreground">
-          Samrawit
-          <br />
-          <span className="text-accent italic font-light">Tekheste</span>
+        <h1 className="font-display text-[2.5rem] leading-[1.05] sm:text-6xl md:text-[5rem] md:leading-[1.0] tracking-[-0.02em] text-foreground max-w-4xl">
+          Samrawit Tekheste
         </h1>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-[12px] md:text-[13px] tracking-[0.22em] uppercase text-muted-foreground">
-          <span>Business Development</span>
-          <span className="text-accent/60">·</span>
-          <span>Sustainability</span>
-          <span className="text-accent/60">·</span>
-          <span>Digital Innovation</span>
-        </div>
-
-        <p className="mt-12 max-w-2xl text-lg md:text-xl leading-relaxed text-muted-foreground font-light">
-          I enjoy exploring how businesses, technology, and sustainability
-          intersect to create meaningful impact. My work focuses on
-          understanding challenges, identifying opportunities, and contributing
-          to solutions that create value for both organizations and people.
+        <p className="mt-8 max-w-2xl text-lg md:text-xl leading-relaxed text-muted-foreground font-light">
+          Business development professional based in Sweden, with interests in{" "}
+          <span className="text-foreground">sustainability, digital innovation, market research,</span>{" "}
+          and solving business problems through thoughtful, practical solutions.
         </p>
 
-        <div className="mt-12 flex flex-wrap items-center gap-4">
+        <div className="mt-10 flex flex-wrap items-center gap-4">
           <a
             href="#portfolio"
-            className="group inline-flex items-center gap-3 h-12 px-7 rounded-full bg-accent text-accent-foreground text-[12px] tracking-[0.22em] uppercase hover:bg-gold-soft transition"
+            className="group inline-flex items-center gap-3 h-12 px-7 rounded-full bg-accent text-accent-foreground text-[12px] tracking-[0.2em] uppercase hover:opacity-90 transition"
           >
             View Portfolio
             <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
           </a>
           <a
             href="#about"
-            className="group inline-flex items-center gap-3 h-12 px-7 rounded-full border border-border text-foreground text-[12px] tracking-[0.22em] uppercase hover:border-accent/60 hover:text-accent transition"
+            className="group inline-flex items-center gap-3 h-12 px-7 rounded-full border border-border text-foreground text-[12px] tracking-[0.2em] uppercase hover:border-accent/50 hover:text-accent transition"
           >
             About Me
           </a>
         </div>
 
-        <div className="mt-20 flex items-center gap-2 text-[12px] tracking-[0.22em] uppercase text-muted-foreground">
-          <MapPin className="h-3.5 w-3.5 text-accent" />
-          Based in Sweden · Available 2026
+        <div className="mt-16 flex flex-wrap items-center gap-x-6 gap-y-3 text-[12px] tracking-[0.2em] uppercase text-muted-foreground">
+          <span className="inline-flex items-center gap-2">
+            <MapPin className="h-3.5 w-3.5 text-accent" /> Based in Sweden
+          </span>
+          <span className="h-px w-6 bg-border" />
+          <span>Open to opportunities · 2026</span>
         </div>
       </div>
     </section>
@@ -222,7 +212,7 @@ function SectionHeader({
   title: React.ReactNode;
 }) {
   return (
-    <div className="grid md:grid-cols-12 gap-8 md:gap-12 mb-16 md:mb-24">
+    <div className="grid md:grid-cols-12 gap-8 md:gap-12 mb-14 md:mb-20">
       <div className="md:col-span-4 flex items-start gap-4">
         <span className="font-display text-accent text-sm tracking-widest">{index}</span>
         <span className="eyebrow text-accent">{eyebrow}</span>
@@ -236,67 +226,48 @@ function SectionHeader({
 
 /* ---------------- About ---------------- */
 
-const STRENGTHS = [
-  "Business Development",
-  "Market Research",
-  "Sustainability",
-  "Project Coordination",
-  "Process Improvement",
-  "Digital Solutions",
-  "Strategic Thinking",
-];
-
 function About() {
   return (
-    <section id="about" className="section-pad border-t border-border/60">
+    <section id="about" className="section-pad border-t border-border">
       <div className="container-x">
         <SectionHeader
           index="01"
           eyebrow="About"
           title={
             <>
-              A business development professional based in Sweden, drawn to{" "}
-              <span className="italic text-accent">sustainability,
-              innovation,</span> and continuous learning.
+              Curious about how businesses, people, and{" "}
+              <span className="italic text-accent">sustainable thinking</span>{" "}
+              come together.
             </>
           }
         />
 
-        <div className="grid md:grid-cols-12 gap-12 md:gap-16">
-          <div className="md:col-span-7 space-y-6 text-base md:text-lg leading-relaxed text-muted-foreground font-light">
+        <div className="grid md:grid-cols-12 gap-12">
+          <div className="md:col-span-8 space-y-5 text-base md:text-lg leading-relaxed text-muted-foreground font-light">
             <p>
-              My experience has allowed me to work across business development,
-              research, project support, and digital initiatives. I enjoy
-              turning information into insights — and helping transform ideas
-              into actionable solutions.
+              I'm an early-career business development professional with a
+              background spanning research, project coordination, and digital
+              initiatives. I enjoy understanding how organizations work and
+              looking for practical, well-considered ways to make them better.
             </p>
             <p>
-              I'm most engaged when a project sits at the intersection of
-              commercial thinking and long-term responsibility: where research
-              informs strategy, and small operational improvements compound
-              into real impact.
+              My interests sit at the intersection of business development,
+              sustainability, and digital innovation — areas where careful
+              research and structured thinking translate directly into useful
+              decisions.
             </p>
           </div>
 
-          <div className="md:col-span-5">
-            <div className="text-[11px] tracking-[0.28em] uppercase text-muted-foreground mb-6">
-              Core Strengths
+          <div className="md:col-span-4">
+            <div className="card-paper p-6">
+              <div className="eyebrow mb-4">Quick facts</div>
+              <dl className="space-y-3 text-sm">
+                <Fact k="Location" v="Sweden" />
+                <Fact k="Focus" v="Business Development" />
+                <Fact k="Interests" v="Sustainability · Digital" />
+                <Fact k="Open to" v="Full-time roles · 2026" />
+              </dl>
             </div>
-            <ul className="divide-y divide-border/70 border-y border-border/70">
-              {STRENGTHS.map((s, i) => (
-                <li
-                  key={s}
-                  className="flex items-baseline justify-between py-4 group"
-                >
-                  <span className="font-display text-lg md:text-xl text-foreground">
-                    {s}
-                  </span>
-                  <span className="font-mono text-[11px] text-muted-foreground tracking-widest">
-                    0{i + 1}
-                  </span>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>
@@ -304,155 +275,12 @@ function About() {
   );
 }
 
-/* ---------------- Portfolio ---------------- */
-
-type Project = {
-  title: string;
-  tag: string;
-  year: string;
-  challenge: string;
-  approach: string;
-  outcome: string;
-  learnings: string;
-};
-
-const PROJECTS: Project[] = [
-  {
-    title: "Sustainable Business Development Initiative",
-    tag: "Sustainability · Strategy",
-    year: "2025",
-    challenge:
-      "A growing organization needed to integrate sustainability principles into its commercial development without slowing operational delivery.",
-    approach:
-      "Mapped current processes, researched relevant frameworks, and proposed a structured set of incremental changes that aligned commercial goals with environmental and social considerations.",
-    outcome:
-      "A practical roadmap that gave the team a shared language for sustainability and a phased plan that fit existing capacity and budgets.",
-    learnings:
-      "Sustainability sticks when it's translated into the daily decisions people already make — not added as a separate workstream.",
-  },
-  {
-    title: "Market Research & Opportunity Mapping",
-    tag: "Research · Business Development",
-    year: "2025",
-    challenge:
-      "Identify viable growth opportunities in an unfamiliar market segment with limited internal data.",
-    approach:
-      "Combined desk research, competitor analysis, and structured interviews to build a clear view of customer needs, white space, and entry barriers.",
-    outcome:
-      "A concise opportunity brief with three prioritized directions, a sizing estimate, and a recommended first step for validation.",
-    learnings:
-      "Good research is less about volume of data and more about asking the question that reframes the decision.",
-  },
-  {
-    title: "Digital Workflow Improvement",
-    tag: "Digital · Process",
-    year: "2024",
-    challenge:
-      "A fragmented workflow was creating duplicated work and delaying internal reporting.",
-    approach:
-      "Documented the existing process end-to-end, identified the friction points, and prototyped a lightweight digital workflow using accessible tools.",
-    outcome:
-      "Reduced manual handoffs, faster reporting cycles, and a workflow the team could maintain themselves.",
-    learnings:
-      "The right digital solution is often the smallest one — proportional to the team that has to live with it.",
-  },
-  {
-    title: "Project Coordination — Cross-Functional Initiative",
-    tag: "Coordination · Operations",
-    year: "2024",
-    challenge:
-      "Coordinate a project spanning multiple stakeholders with different priorities and reporting needs.",
-    approach:
-      "Established a clear cadence, single source of truth, and lightweight status format that respected each stakeholder's context.",
-    outcome:
-      "On-time delivery, fewer status meetings, and clearer accountability across contributors.",
-    learnings:
-      "Coordination is mostly communication design — the structure you choose determines what people will actually read.",
-  },
-];
-
-function ProjectCard({ p, i }: { p: Project; i: number }) {
-  const [open, setOpen] = useState(false);
+function Fact({ k, v }: { k: string; v: string }) {
   return (
-    <article className="border-t border-border/70 py-10 md:py-14 group">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full grid md:grid-cols-12 gap-6 text-left"
-      >
-        <div className="md:col-span-1 font-mono text-[11px] tracking-widest text-muted-foreground pt-2">
-          {String(i + 1).padStart(2, "0")}
-        </div>
-        <div className="md:col-span-7">
-          <h3 className="font-display text-2xl md:text-3xl leading-tight text-foreground group-hover:text-accent transition">
-            {p.title}
-          </h3>
-          <div className="mt-3 text-[11px] tracking-[0.22em] uppercase text-muted-foreground">
-            {p.tag}
-          </div>
-        </div>
-        <div className="md:col-span-3 font-mono text-[11px] tracking-widest text-muted-foreground md:text-right pt-2">
-          {p.year}
-        </div>
-        <div className="md:col-span-1 md:justify-self-end pt-1">
-          <span className="h-9 w-9 grid place-items-center rounded-full border border-border text-muted-foreground group-hover:border-accent/60 group-hover:text-accent transition">
-            {open ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-          </span>
-        </div>
-      </button>
-
-      <div
-        className={`grid transition-all duration-500 ease-out ${
-          open ? "grid-rows-[1fr] opacity-100 mt-10" : "grid-rows-[0fr] opacity-0"
-        }`}
-      >
-        <div className="overflow-hidden">
-          <div className="grid md:grid-cols-12 gap-8 md:gap-12">
-            <div className="md:col-start-3 md:col-span-9 grid sm:grid-cols-2 gap-x-12 gap-y-8">
-              {[
-                ["Challenge", p.challenge],
-                ["Approach", p.approach],
-                ["Outcome", p.outcome],
-                ["Key Learnings", p.learnings],
-              ].map(([label, body]) => (
-                <div key={label}>
-                  <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">
-                    {label}
-                  </div>
-                  <p className="text-[15px] leading-relaxed text-muted-foreground font-light">
-                    {body}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function Portfolio_() {
-  return (
-    <section id="portfolio" className="section-pad border-t border-border/60">
-      <div className="container-x">
-        <SectionHeader
-          index="02"
-          eyebrow="Portfolio"
-          title={
-            <>
-              Case studies in <span className="italic text-accent">research,
-              strategy,</span> and digital problem-solving.
-            </>
-          }
-        />
-        <div>
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={p.title} p={p} i={i} />
-          ))}
-          <div className="border-t border-border/70" />
-        </div>
-      </div>
-    </section>
+    <div className="flex items-baseline justify-between gap-4 border-b border-border pb-2 last:border-0 last:pb-0">
+      <dt className="text-[11px] tracking-[0.22em] uppercase text-muted-foreground">{k}</dt>
+      <dd className="text-foreground text-right">{v}</dd>
+    </div>
   );
 }
 
@@ -461,10 +289,10 @@ function Portfolio_() {
 const EXPERIENCE = [
   {
     role: "Business Development Intern",
-    org: "Confidential · Sweden",
+    org: "Sweden",
     period: "2025",
     detail:
-      "Supported market research, opportunity mapping, and partner outreach for growth initiatives — translating findings into briefs that informed commercial decisions.",
+      "Supported market research, opportunity mapping, and partner outreach — translating findings into briefs that informed commercial decisions.",
   },
   {
     role: "Sustainability Project Contributor",
@@ -491,10 +319,10 @@ const EXPERIENCE = [
 
 function Experience() {
   return (
-    <section id="experience" className="section-pad border-t border-border/60">
+    <section id="experience" className="section-pad border-t border-border">
       <div className="container-x">
         <SectionHeader
-          index="03"
+          index="02"
           eyebrow="Experience"
           title={
             <>
@@ -505,10 +333,10 @@ function Experience() {
         />
 
         <ol className="relative">
-          {EXPERIENCE.map((e, i) => (
+          {EXPERIENCE.map((e) => (
             <li
               key={e.role}
-              className="grid md:grid-cols-12 gap-6 md:gap-10 border-t border-border/70 py-10 md:py-12"
+              className="grid md:grid-cols-12 gap-6 md:gap-10 border-t border-border py-8 md:py-10 last:border-b"
             >
               <div className="md:col-span-2 font-mono text-[11px] tracking-widest text-accent">
                 {e.period}
@@ -524,11 +352,429 @@ function Experience() {
               <p className="md:col-span-6 text-[15px] leading-relaxed text-muted-foreground font-light">
                 {e.detail}
               </p>
-              <span className="hidden">{i}</span>
             </li>
           ))}
-          <div className="border-t border-border/70" />
         </ol>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Portfolio ---------------- */
+
+function PortfolioSection({
+  onOpenLightbox,
+}: {
+  onOpenLightbox: (imgs: LightboxImage[], start: number) => void;
+}) {
+  return (
+    <section id="portfolio" className="section-pad border-t border-border bg-muted/40">
+      <div className="container-x">
+        <SectionHeader
+          index="03"
+          eyebrow="Portfolio"
+          title={
+            <>
+              Case studies in <span className="italic text-accent">research,
+              strategy,</span> and digital problem-solving.
+            </>
+          }
+        />
+        <div className="grid gap-6 md:gap-8">
+          {PROJECTS.map((p, i) => (
+            <ProjectCard key={p.slug} p={p} i={i} onOpenLightbox={onOpenLightbox} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProjectCard({
+  p,
+  i,
+  onOpenLightbox,
+}: {
+  p: Project;
+  i: number;
+  onOpenLightbox: (imgs: LightboxImage[], start: number) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <article className="card-paper overflow-hidden transition hover:shadow-[0_8px_30px_-12px_oklch(0.24_0.012_60/0.12)]">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full grid md:grid-cols-12 gap-6 text-left p-6 md:p-8 group"
+      >
+        <div className="md:col-span-1 font-mono text-[11px] tracking-widest text-muted-foreground pt-2">
+          {String(i + 1).padStart(2, "0")}
+        </div>
+        <div className="md:col-span-7">
+          <h3 className="font-display text-2xl md:text-[1.75rem] leading-tight text-foreground group-hover:text-accent transition">
+            {p.title}
+          </h3>
+          <div className="mt-3 text-[11px] tracking-[0.22em] uppercase text-muted-foreground">
+            {p.tag}
+          </div>
+          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground font-light max-w-2xl">
+            {p.overview}
+          </p>
+        </div>
+        <div className="md:col-span-3 font-mono text-[11px] tracking-widest text-muted-foreground md:text-right pt-2">
+          {p.year}
+        </div>
+        <div className="md:col-span-1 md:justify-self-end pt-1">
+          <span className="h-9 w-9 grid place-items-center rounded-full border border-border text-muted-foreground group-hover:border-accent/50 group-hover:text-accent transition">
+            {open ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          </span>
+        </div>
+      </button>
+
+      <div
+        className={`grid transition-all duration-500 ease-out ${
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="border-t border-border p-6 md:p-10 grid md:grid-cols-12 gap-10">
+            <div className="md:col-span-7 space-y-8">
+              <CaseBlock label="Challenge" body={p.challenge} />
+              <CaseBlock label="My Role" body={p.role} />
+              <CaseListBlock label="Actions Taken" items={p.actions} />
+              <CaseListBlock label="Results" items={p.results} />
+              <CaseBlock label="Key Learnings" body={p.learnings} />
+            </div>
+
+            <div className="md:col-span-5 space-y-8">
+              <div>
+                <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">
+                  Skills Used
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {p.skills.map((s) => (
+                    <span
+                      key={s}
+                      className="text-[12px] px-3 py-1.5 rounded-full bg-muted text-foreground border border-border"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <EvidenceGallery
+                slug={p.slug}
+                evidence={p.evidence}
+                onOpenLightbox={onOpenLightbox}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function CaseBlock({ label, body }: { label: string; body: string }) {
+  return (
+    <div>
+      <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">{label}</div>
+      <p className="text-[15px] leading-relaxed text-muted-foreground font-light">{body}</p>
+    </div>
+  );
+}
+
+function CaseListBlock({ label, items }: { label: string; items: string[] }) {
+  return (
+    <div>
+      <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">{label}</div>
+      <ul className="space-y-2">
+        {items.map((it) => (
+          <li
+            key={it}
+            className="text-[15px] leading-relaxed text-muted-foreground font-light pl-5 relative"
+          >
+            <span className="absolute left-0 top-2.5 h-1.5 w-1.5 rounded-full bg-accent/70" />
+            {it}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* ---------------- Evidence Gallery ---------------- */
+
+function EvidenceGallery({
+  slug,
+  evidence,
+  onOpenLightbox,
+}: {
+  slug: string;
+  evidence: Evidence[];
+  onOpenLightbox: (imgs: LightboxImage[], start: number) => void;
+}) {
+  const images = useMemo<LightboxImage[]>(
+    () =>
+      evidence
+        .filter((e): e is Extract<Evidence, { kind: "image" }> => e.kind === "image")
+        .map((e) => ({ src: e.src, caption: e.caption })),
+    [evidence],
+  );
+
+  return (
+    <div>
+      <div className="text-[10px] tracking-[0.3em] uppercase text-accent mb-3">
+        Evidence Gallery
+      </div>
+
+      {evidence.length === 0 ? (
+        <EvidencePlaceholder slug={slug} />
+      ) : (
+        <div className="grid grid-cols-2 gap-3">
+          {evidence.map((ev, idx) => (
+            <EvidenceItem
+              key={idx}
+              ev={ev}
+              onImageClick={() => {
+                const imgIndex = images.findIndex(
+                  (im) => ev.kind === "image" && im.src === ev.src,
+                );
+                if (imgIndex >= 0) onOpenLightbox(images, imgIndex);
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function EvidencePlaceholder({ slug }: { slug: string }) {
+  return (
+    <div className="border border-dashed border-border rounded-lg p-5 text-[13px] leading-relaxed text-muted-foreground font-light bg-muted/40">
+      <div className="flex items-start gap-3">
+        <ImageIcon className="h-4 w-4 mt-0.5 text-accent shrink-0" />
+        <div>
+          <div className="text-foreground mb-1">Project files will appear here.</div>
+          <p>
+            Photos, videos, PDFs, slides, and certificates from this project
+            go in{" "}
+            <code className="font-mono text-[12px] text-foreground bg-background px-1.5 py-0.5 rounded border border-border">
+              public/case-studies/{slug}/
+            </code>{" "}
+            and are listed in{" "}
+            <code className="font-mono text-[12px] text-foreground bg-background px-1.5 py-0.5 rounded border border-border">
+              src/data/projects.ts
+            </code>
+            .
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EvidenceItem({
+  ev,
+  onImageClick,
+}: {
+  ev: Evidence;
+  onImageClick: () => void;
+}) {
+  if (ev.kind === "image") {
+    return (
+      <button
+        onClick={onImageClick}
+        className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-muted"
+      >
+        <img
+          src={ev.src}
+          alt={ev.caption || ""}
+          className="h-full w-full object-cover transition group-hover:scale-[1.03]"
+          loading="lazy"
+        />
+        {ev.caption && (
+          <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 to-transparent text-paper text-[11px] p-2 opacity-0 group-hover:opacity-100 transition">
+            {ev.caption}
+          </span>
+        )}
+      </button>
+    );
+  }
+  if (ev.kind === "video") {
+    return (
+      <div className="col-span-2 aspect-video overflow-hidden rounded-lg border border-border bg-ink">
+        <video
+          src={ev.src}
+          poster={ev.poster}
+          controls
+          className="h-full w-full"
+          preload="metadata"
+        />
+      </div>
+    );
+  }
+  if (ev.kind === "youtube") {
+    return (
+      <div className="col-span-2 aspect-video overflow-hidden rounded-lg border border-border bg-ink">
+        <iframe
+          src={`https://www.youtube.com/embed/${ev.id}`}
+          title={ev.caption || "Video"}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          className="h-full w-full"
+        />
+      </div>
+    );
+  }
+  if (ev.kind === "pdf") {
+    return (
+      <a
+        href={ev.src}
+        target="_blank"
+        rel="noreferrer"
+        className="col-span-2 group flex items-center gap-3 rounded-lg border border-border p-4 bg-muted hover:border-accent/50 hover:bg-paper transition"
+      >
+        <FileText className="h-5 w-5 text-accent shrink-0" />
+        <div className="flex-1 min-w-0">
+          <div className="text-[13px] text-foreground truncate">{ev.label}</div>
+          {ev.caption && (
+            <div className="text-[11px] text-muted-foreground truncate">{ev.caption}</div>
+          )}
+        </div>
+        <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-accent" />
+      </a>
+    );
+  }
+  if (ev.kind === "slides") {
+    const isEmbed = /\/embed|presentation\/d\/.+\/embed|slideshare/.test(ev.src);
+    if (isEmbed) {
+      return (
+        <div className="col-span-2 aspect-video overflow-hidden rounded-lg border border-border bg-ink">
+          <iframe
+            src={ev.src}
+            title={ev.label}
+            allowFullScreen
+            className="h-full w-full"
+          />
+        </div>
+      );
+    }
+    return (
+      <a
+        href={ev.src}
+        target="_blank"
+        rel="noreferrer"
+        className="col-span-2 group flex items-center gap-3 rounded-lg border border-border p-4 bg-muted hover:border-accent/50 hover:bg-paper transition"
+      >
+        <Presentation className="h-5 w-5 text-accent shrink-0" />
+        <div className="flex-1 min-w-0">
+          <div className="text-[13px] text-foreground truncate">{ev.label}</div>
+          {ev.caption && (
+            <div className="text-[11px] text-muted-foreground truncate">{ev.caption}</div>
+          )}
+        </div>
+        <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-accent" />
+      </a>
+    );
+  }
+  // link
+  return (
+    <a
+      href={ev.href}
+      target="_blank"
+      rel="noreferrer"
+      className="col-span-2 group flex items-center gap-3 rounded-lg border border-border p-4 bg-muted hover:border-accent/50 hover:bg-paper transition"
+    >
+      <Play className="h-5 w-5 text-accent shrink-0" />
+      <div className="flex-1 min-w-0">
+        <div className="text-[13px] text-foreground truncate">{ev.label}</div>
+        {ev.caption && (
+          <div className="text-[11px] text-muted-foreground truncate">{ev.caption}</div>
+        )}
+      </div>
+      <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-accent" />
+    </a>
+  );
+}
+
+/* ---------------- Skills ---------------- */
+
+const SKILL_GROUPS = [
+  {
+    title: "Business & Strategy",
+    items: [
+      "Business Development",
+      "Market Research",
+      "Competitor Analysis",
+      "Opportunity Mapping",
+      "Strategic Writing",
+    ],
+  },
+  {
+    title: "Sustainability & Innovation",
+    items: [
+      "Sustainability Frameworks",
+      "Process Improvement",
+      "Stakeholder Analysis",
+      "Roadmapping",
+    ],
+  },
+  {
+    title: "Digital & Analytical",
+    items: [
+      "Data-Informed Thinking",
+      "Digital Workflows",
+      "Prototyping",
+      "Reporting & Documentation",
+    ],
+  },
+  {
+    title: "Ways of Working",
+    items: [
+      "Project Coordination",
+      "Stakeholder Communication",
+      "Cross-Functional Collaboration",
+      "Structured Problem Solving",
+    ],
+  },
+];
+
+function Skills() {
+  return (
+    <section id="skills" className="section-pad border-t border-border">
+      <div className="container-x">
+        <SectionHeader
+          index="04"
+          eyebrow="Skills"
+          title={
+            <>
+              Skills built through{" "}
+              <span className="italic text-accent">research, projects,</span>{" "}
+              and continuous learning.
+            </>
+          }
+        />
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {SKILL_GROUPS.map((g) => (
+            <div key={g.title} className="card-paper p-6">
+              <h3 className="font-display text-lg text-foreground mb-4">{g.title}</h3>
+              <ul className="space-y-2.5">
+                {g.items.map((it) => (
+                  <li
+                    key={it}
+                    className="text-[14px] text-muted-foreground font-light pl-4 relative"
+                  >
+                    <span className="absolute left-0 top-2 h-1 w-1 rounded-full bg-accent/70" />
+                    {it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -538,10 +784,10 @@ function Experience() {
 
 function Contact() {
   return (
-    <section id="contact" className="section-pad border-t border-border/60">
+    <section id="contact" className="section-pad border-t border-border bg-muted/40">
       <div className="container-x">
         <SectionHeader
-          index="04"
+          index="05"
           eyebrow="Contact"
           title={
             <>
@@ -561,14 +807,14 @@ function Contact() {
 
             <a
               href={`mailto:${EMAIL}`}
-              className="group mt-12 inline-flex items-baseline gap-4 font-display text-3xl md:text-5xl text-foreground hover:text-accent transition"
+              className="group mt-10 inline-flex items-baseline gap-4 font-display text-2xl md:text-4xl text-foreground hover:text-accent transition break-all"
             >
               {EMAIL}
-              <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8 text-accent transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+              <ArrowUpRight className="h-6 w-6 md:h-8 md:w-8 text-accent transition group-hover:translate-x-1 group-hover:-translate-y-1 shrink-0" />
             </a>
           </div>
 
-          <div className="md:col-span-5 md:border-l md:border-border/70 md:pl-12 space-y-8">
+          <div className="md:col-span-5 md:border-l md:border-border md:pl-12 space-y-2">
             <ContactRow
               label="Email"
               value={EMAIL}
@@ -614,22 +860,22 @@ function ContactRow({
   external?: boolean;
 }) {
   const inner = (
-    <div className="flex items-center justify-between py-4 border-b border-border/70 group">
-      <div className="flex items-center gap-4">
-        <span className="h-9 w-9 grid place-items-center rounded-full border border-border text-accent">
+    <div className="flex items-center justify-between py-4 border-b border-border group">
+      <div className="flex items-center gap-4 min-w-0">
+        <span className="h-9 w-9 grid place-items-center rounded-full border border-border text-accent shrink-0">
           {icon}
         </span>
-        <div>
+        <div className="min-w-0">
           <div className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
             {label}
           </div>
-          <div className="text-foreground group-hover:text-accent transition">
+          <div className="text-foreground group-hover:text-accent transition truncate">
             {value}
           </div>
         </div>
       </div>
       {href && (
-        <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-accent transition" />
+        <ArrowUpRight className="h-4 w-4 text-muted-foreground group-hover:text-accent transition shrink-0" />
       )}
     </div>
   );
@@ -650,7 +896,7 @@ function ContactRow({
 
 function Footer() {
   return (
-    <footer className="border-t border-border/60">
+    <footer className="border-t border-border">
       <div className="container-x py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-baseline gap-3">
           <span className="font-display text-sm tracking-[0.22em] uppercase text-foreground">
@@ -671,17 +917,44 @@ function Footer() {
 /* ---------------- Page ---------------- */
 
 function Portfolio() {
+  const [lightbox, setLightbox] = useState<{
+    images: LightboxImage[];
+    index: number;
+  } | null>(null);
+
+  const openLightbox = (images: LightboxImage[], index: number) =>
+    setLightbox({ images, index });
+
   return (
-    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-accent/30 selection:text-foreground">
+    <div className="min-h-screen bg-background text-foreground antialiased selection:bg-accent/20 selection:text-foreground">
       <Nav />
       <main>
         <Hero />
         <About />
-        <Portfolio_ />
         <Experience />
+        <PortfolioSection onOpenLightbox={openLightbox} />
+        <Skills />
         <Contact />
       </main>
       <Footer />
+
+      {lightbox && (
+        <Lightbox
+          images={lightbox.images}
+          index={lightbox.index}
+          onClose={() => setLightbox(null)}
+          onPrev={() =>
+            setLightbox((l) =>
+              l ? { ...l, index: (l.index - 1 + l.images.length) % l.images.length } : l,
+            )
+          }
+          onNext={() =>
+            setLightbox((l) =>
+              l ? { ...l, index: (l.index + 1) % l.images.length } : l,
+            )
+          }
+        />
+      )}
     </div>
   );
 }
