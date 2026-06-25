@@ -35,45 +35,45 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
-  --color-ink: var(--ink);
-  --color-ink-2: var(--ink-2);
-  --color-ink-3: var(--ink-3);
+  --color-stone-bg: var(--stone-bg);
   --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-olive: var(--olive);
+  --color-olive-soft: var(--olive-soft);
+  --color-bronze: var(--bronze);
 }
 
 :root {
   --radius: 0.5rem;
 
-  /* Editorial dark palette — charcoal + soft white + restrained gold */
-  --background: oklch(0.17 0.005 260);           /* #0F1115 charcoal */
-  --foreground: oklch(0.96 0.005 100);           /* soft white */
-  --card: oklch(0.20 0.006 260);
-  --card-foreground: oklch(0.96 0.005 100);
-  --popover: oklch(0.19 0.006 260);
-  --popover-foreground: oklch(0.96 0.005 100);
+  /* Warm Scandinavian — stone background, paper cards, charcoal text, olive/bronze accents */
+  --background: oklch(0.965 0.008 80);            /* warm off-white / stone */
+  --foreground: oklch(0.24 0.012 60);             /* charcoal ink */
+  --card: oklch(0.995 0.004 90);                  /* paper white */
+  --card-foreground: oklch(0.24 0.012 60);
+  --popover: oklch(0.995 0.004 90);
+  --popover-foreground: oklch(0.24 0.012 60);
 
-  --primary: oklch(0.78 0.10 85);                /* muted gold */
-  --primary-foreground: oklch(0.17 0.005 260);
-  --secondary: oklch(0.24 0.006 260);
-  --secondary-foreground: oklch(0.92 0.005 100);
-  --muted: oklch(0.23 0.006 260);
-  --muted-foreground: oklch(0.66 0.008 100);
-  --accent: oklch(0.78 0.10 85);                 /* gold */
-  --accent-foreground: oklch(0.17 0.005 260);
+  --primary: oklch(0.46 0.05 130);                /* olive */
+  --primary-foreground: oklch(0.98 0.004 90);
+  --secondary: oklch(0.93 0.01 80);
+  --secondary-foreground: oklch(0.28 0.012 60);
+  --muted: oklch(0.93 0.008 80);
+  --muted-foreground: oklch(0.46 0.012 70);
+  --accent: oklch(0.46 0.05 130);                 /* olive accent */
+  --accent-foreground: oklch(0.98 0.004 90);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.28 0.006 260);
-  --input: oklch(0.26 0.006 260);
-  --ring: oklch(0.78 0.10 85);
+  --border: oklch(0.88 0.01 80);
+  --input: oklch(0.9 0.008 80);
+  --ring: oklch(0.46 0.05 130);
 
-  --gold: oklch(0.78 0.10 85);
-  --gold-soft: oklch(0.72 0.08 85);
-  --ink: oklch(0.17 0.005 260);
-  --ink-2: oklch(0.20 0.006 260);
-  --ink-3: oklch(0.24 0.006 260);
-  --paper: oklch(0.96 0.005 100);
+  --stone-bg: oklch(0.965 0.008 80);
+  --paper: oklch(0.995 0.004 90);
+  --ink: oklch(0.24 0.012 60);
+  --olive: oklch(0.46 0.05 130);
+  --olive-soft: oklch(0.6 0.04 130);
+  --bronze: oklch(0.55 0.08 55);
 }
 
 @layer base {
@@ -101,11 +101,11 @@
 }
 
 @utility section-pad {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
   @media (min-width: 768px) {
-    padding-top: 9rem;
-    padding-bottom: 9rem;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
   }
 }
 
@@ -128,4 +128,10 @@
   text-transform: uppercase;
   color: var(--color-muted-foreground);
   font-weight: 500;
+}
+
+@utility card-paper {
+  background-color: var(--color-paper);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
 }
