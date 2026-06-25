@@ -84,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Samrawit (Sam) Tekheste — Junior Business Developer in Stockholm specializing in market analysis, partnerships, growth strategy, and strategic storytelling.",
       },
       { name: "author", content: "Samrawit Tekheste" },
-      { property: "og:title", content: "Samrawit Tekheste — Junior Business Developer" },
+      { property: "og:title", content: "Samrawit Tekheste — Junior Business Developer in Stockholm" },
       {
         property: "og:description",
         content:
@@ -92,6 +92,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Samrawit Tekheste — Junior Business Developer in Stockholm" },
+      { name: "description", content: "Growth Catalyst Studio is a modern portfolio website showcasing business development expertise in market analysis, partnerships, and strategic growth." },
+      { property: "og:description", content: "Growth Catalyst Studio is a modern portfolio website showcasing business development expertise in market analysis, partnerships, and strategic growth." },
+      { name: "twitter:description", content: "Growth Catalyst Studio is a modern portfolio website showcasing business development expertise in market analysis, partnerships, and strategic growth." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e95e9aef-0855-42f6-8389-24cae8c63d53/id-preview-380c51aa--01629e1e-31aa-4a28-ba0c-cc0d223c97c4.lovable.app-1782414672536.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e95e9aef-0855-42f6-8389-24cae8c63d53/id-preview-380c51aa--01629e1e-31aa-4a28-ba0c-cc0d223c97c4.lovable.app-1782414672536.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
