@@ -315,31 +315,31 @@ function Fact({ k, v }: { k: string; v: string }) {
 const EXPERIENCE = [
   {
     role: "Business Development Intern",
-    org: "Sweden",
+    org: "Stockholm, Sweden",
     period: "2025",
     detail:
-      "Supported market research, opportunity mapping, and partner outreach — translating findings into briefs that informed commercial decisions.",
+      "Supported market research, opportunity analysis, competitor research, and partner outreach while contributing to business development activities.",
   },
   {
     role: "Sustainability Project Contributor",
-    org: "Independent & Academic Projects",
-    period: "2024 — 2025",
+    org: "Independent and Academic Projects",
+    period: "2024 · 2025",
     detail:
-      "Researched sustainability frameworks and contributed structured proposals on how organizations can integrate them into commercial workflows.",
+      "Researched sustainable business practices and explored how sustainability can support business development and long-term organizational value through project and academic work.",
   },
   {
     role: "Research Assistant",
     org: "Academic & Applied Research",
     period: "2024",
     detail:
-      "Conducted desk and field research, synthesized findings, and produced clear, decision-ready summaries for stakeholders.",
+      "Conducted desk and field research, synthesized findings, and produced clear, decision-ready summaries as part of academic and applied research projects.",
   },
   {
     role: "Digital Solutions Contributor",
-    org: "Cross-Functional Projects",
-    period: "2023 — 2024",
+    org: "Cross-Functional Academic Projects",
+    period: "2023 · 2024",
     detail:
-      "Helped prototype and document lightweight digital workflows that improved coordination and reporting across small teams.",
+      "Collaborated on academic team projects to document workflows, prototype lightweight digital improvements, and support coordination and reporting.",
   },
 ];
 
