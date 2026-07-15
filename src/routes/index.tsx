@@ -192,6 +192,14 @@ function Hero() {
             rel="noreferrer"
             className="group inline-flex items-center gap-3 h-12 px-7 rounded-full border border-border text-foreground text-[12px] tracking-[0.2em] uppercase hover:border-accent/50 hover:text-accent transition"
           >
+            View CV
+            <ExternalLink className="h-4 w-4 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+          <a
+            href="/cv.pdf"
+            download="Samrawit-Tekheste-CV.pdf"
+            className="group inline-flex items-center gap-3 h-12 px-7 rounded-full border border-border text-foreground text-[12px] tracking-[0.2em] uppercase hover:border-accent/50 hover:text-accent transition"
+          >
             Download CV
             <Download className="h-4 w-4 transition group-hover:translate-y-0.5" />
           </a>
