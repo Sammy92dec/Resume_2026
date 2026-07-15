@@ -933,7 +933,7 @@ function Footer() {
           </span>
         </div>
         <div className="text-[11px] tracking-[0.25em] uppercase text-muted-foreground">
-          Business Development · Sustainability · Digital Innovation
+          Business Development · Digital Innovation · Market Research
         </div>
       </div>
     </footer>
