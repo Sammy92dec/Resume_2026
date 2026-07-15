@@ -910,7 +910,7 @@ function ContactRow({
     <a
       href={href}
       target={external ? "_blank" : undefined}
-      rel={external ? "noreferrer" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
       className="block"
     >
       {inner}
