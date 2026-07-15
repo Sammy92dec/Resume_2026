@@ -24,17 +24,17 @@ const EMAIL = "samrawit.samuel.tk@gmail.com";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Samrawit Tekheste — Business Development, Sustainability & Digital Innovation" },
+      { title: "Samrawit Tekheste · Business Development Portfolio" },
       {
         name: "description",
         content:
-          "Samrawit Tekheste — Sweden-based business development professional with interests in sustainability, digital innovation, market research, and practical problem solving.",
+          "Samrawit Tekheste, an early-career Business Development professional based in Stockholm, Sweden, with interests in digital innovation, market research, business strategy, and sustainable business development.",
       },
-      { property: "og:title", content: "Samrawit Tekheste — Portfolio" },
+      { property: "og:title", content: "Samrawit Tekheste · Business Development Portfolio" },
       {
         property: "og:description",
         content:
-          "Business development professional working at the intersection of sustainability and digital innovation.",
+          "Early-career Business Development professional based in Stockholm, Sweden.",
       },
     ],
   }),
@@ -167,9 +167,10 @@ function Hero() {
         </h1>
 
         <p className="mt-8 max-w-2xl text-lg md:text-xl leading-relaxed text-muted-foreground font-light">
-          Business development professional based in Sweden, with interests in{" "}
-          <span className="text-foreground">sustainability, digital innovation, market research,</span>{" "}
-          and solving business problems through thoughtful, practical solutions.
+          Business Development professional based in{" "}
+          <span className="text-foreground">Stockholm, Sweden</span>, with interests in{" "}
+          <span className="text-foreground">digital innovation, market research, business strategy, and sustainable business development</span>.
+          Passionate about solving business problems through research, analysis, and practical solutions.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -203,14 +204,23 @@ function Hero() {
             Download CV
             <Download className="h-4 w-4 transition group-hover:translate-y-0.5" />
           </a>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 h-12 px-7 rounded-full border border-border text-foreground text-[12px] tracking-[0.2em] uppercase hover:border-accent/50 hover:text-accent transition"
+          >
+            LinkedIn
+            <Linkedin className="h-4 w-4" />
+          </a>
         </div>
 
         <div className="mt-16 flex flex-wrap items-center gap-x-6 gap-y-3 text-[12px] tracking-[0.2em] uppercase text-muted-foreground">
           <span className="inline-flex items-center gap-2">
-            <MapPin className="h-3.5 w-3.5 text-accent" /> Based in Sweden
+            <MapPin className="h-3.5 w-3.5 text-accent" /> Based in Stockholm, Sweden
           </span>
           <span className="h-px w-6 bg-border" />
-          <span>Open to opportunities · 2026</span>
+          <span>Open to opportunities</span>
         </div>
       </div>
     </section>
@@ -253,7 +263,7 @@ function About() {
           title={
             <>
               Curious about how businesses, people, and{" "}
-              <span className="italic text-accent">sustainable thinking</span>{" "}
+              <span className="italic text-accent">practical ideas</span>{" "}
               come together.
             </>
           }
@@ -262,16 +272,15 @@ function About() {
         <div className="grid md:grid-cols-12 gap-12">
           <div className="md:col-span-8 space-y-5 text-base md:text-lg leading-relaxed text-muted-foreground font-light">
             <p>
-              I'm an early-career business development professional with a
-              background spanning research, project coordination, and digital
-              initiatives. I enjoy understanding how organizations work and
-              looking for practical, well-considered ways to make them better.
+              I enjoy understanding how organizations work and identifying
+              practical opportunities for improvement through research,
+              collaboration, and structured problem-solving.
             </p>
             <p>
-              My interests sit at the intersection of business development,
-              sustainability, and digital innovation — areas where careful
-              research and structured thinking translate directly into useful
-              decisions.
+              My interests include business development, digital innovation,
+              market research, process improvement, and sustainable business
+              practices. Sustainability is an area of personal interest that I
+              continue to explore rather than a primary specialization.
             </p>
           </div>
 
@@ -279,10 +288,10 @@ function About() {
             <div className="card-paper p-6">
               <div className="eyebrow mb-4">Quick facts</div>
               <dl className="space-y-3 text-sm">
-                <Fact k="Location" v="Sweden" />
+                <Fact k="Location" v="Stockholm, Sweden" />
                 <Fact k="Focus" v="Business Development" />
-                <Fact k="Interests" v="Sustainability · Digital" />
-                <Fact k="Open to" v="Full-time roles · 2026" />
+                <Fact k="Interests" v="Digital Innovation · Market Research · Sustainable Business" />
+                <Fact k="Open to" v="Full-time Opportunities" />
               </dl>
             </div>
           </div>
@@ -306,31 +315,31 @@ function Fact({ k, v }: { k: string; v: string }) {
 const EXPERIENCE = [
   {
     role: "Business Development Intern",
-    org: "Sweden",
+    org: "Stockholm, Sweden",
     period: "2025",
     detail:
-      "Supported market research, opportunity mapping, and partner outreach — translating findings into briefs that informed commercial decisions.",
+      "Supported market research, opportunity analysis, competitor research, and partner outreach while contributing to business development activities.",
   },
   {
     role: "Sustainability Project Contributor",
-    org: "Independent & Academic Projects",
-    period: "2024 — 2025",
+    org: "Independent and Academic Projects",
+    period: "2024 · 2025",
     detail:
-      "Researched sustainability frameworks and contributed structured proposals on how organizations can integrate them into commercial workflows.",
+      "Researched sustainable business practices and explored how sustainability can support business development and long-term organizational value through project and academic work.",
   },
   {
     role: "Research Assistant",
     org: "Academic & Applied Research",
     period: "2024",
     detail:
-      "Conducted desk and field research, synthesized findings, and produced clear, decision-ready summaries for stakeholders.",
+      "Conducted desk and field research, synthesized findings, and produced clear, decision-ready summaries as part of academic and applied research projects.",
   },
   {
     role: "Digital Solutions Contributor",
-    org: "Cross-Functional Projects",
-    period: "2023 — 2024",
+    org: "Cross-Functional Academic Projects",
+    period: "2023 · 2024",
     detail:
-      "Helped prototype and document lightweight digital workflows that improved coordination and reporting across small teams.",
+      "Collaborated on academic team projects to document workflows, prototype lightweight digital improvements, and support coordination and reporting.",
   },
 ];
 
@@ -853,7 +862,7 @@ function Contact() {
             />
             <ContactRow
               label="Location"
-              value="Sweden"
+              value="Stockholm, Sweden"
               icon={<MapPin className="h-4 w-4" />}
             />
           </div>
@@ -901,7 +910,7 @@ function ContactRow({
     <a
       href={href}
       target={external ? "_blank" : undefined}
-      rel={external ? "noreferrer" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
       className="block"
     >
       {inner}
@@ -924,7 +933,7 @@ function Footer() {
           </span>
         </div>
         <div className="text-[11px] tracking-[0.25em] uppercase text-muted-foreground">
-          Business Development · Sustainability · Digital Innovation
+          Business Development · Digital Innovation · Market Research
         </div>
       </div>
     </footer>
