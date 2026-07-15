@@ -263,7 +263,7 @@ function About() {
           title={
             <>
               Curious about how businesses, people, and{" "}
-              <span className="italic text-accent">sustainable thinking</span>{" "}
+              <span className="italic text-accent">practical ideas</span>{" "}
               come together.
             </>
           }
@@ -272,16 +272,15 @@ function About() {
         <div className="grid md:grid-cols-12 gap-12">
           <div className="md:col-span-8 space-y-5 text-base md:text-lg leading-relaxed text-muted-foreground font-light">
             <p>
-              I'm an early-career business development professional with a
-              background spanning research, project coordination, and digital
-              initiatives. I enjoy understanding how organizations work and
-              looking for practical, well-considered ways to make them better.
+              I enjoy understanding how organizations work and identifying
+              practical opportunities for improvement through research,
+              collaboration, and structured problem-solving.
             </p>
             <p>
-              My interests sit at the intersection of business development,
-              sustainability, and digital innovation — areas where careful
-              research and structured thinking translate directly into useful
-              decisions.
+              My interests include business development, digital innovation,
+              market research, process improvement, and sustainable business
+              practices. Sustainability is an area of personal interest that I
+              continue to explore rather than a primary specialization.
             </p>
           </div>
 
@@ -289,10 +288,10 @@ function About() {
             <div className="card-paper p-6">
               <div className="eyebrow mb-4">Quick facts</div>
               <dl className="space-y-3 text-sm">
-                <Fact k="Location" v="Sweden" />
+                <Fact k="Location" v="Stockholm, Sweden" />
                 <Fact k="Focus" v="Business Development" />
-                <Fact k="Interests" v="Sustainability · Digital" />
-                <Fact k="Open to" v="Full-time roles · 2026" />
+                <Fact k="Interests" v="Digital Innovation · Market Research · Sustainable Business" />
+                <Fact k="Open to" v="Full-time Opportunities" />
               </dl>
             </div>
           </div>
