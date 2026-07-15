@@ -24,17 +24,17 @@ const EMAIL = "samrawit.samuel.tk@gmail.com";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Samrawit Tekheste — Business Development, Sustainability & Digital Innovation" },
+      { title: "Samrawit Tekheste · Business Development Portfolio" },
       {
         name: "description",
         content:
-          "Samrawit Tekheste — Sweden-based business development professional with interests in sustainability, digital innovation, market research, and practical problem solving.",
+          "Samrawit Tekheste, an early-career Business Development professional based in Stockholm, Sweden, with interests in digital innovation, market research, business strategy, and sustainable business development.",
       },
-      { property: "og:title", content: "Samrawit Tekheste — Portfolio" },
+      { property: "og:title", content: "Samrawit Tekheste · Business Development Portfolio" },
       {
         property: "og:description",
         content:
-          "Business development professional working at the intersection of sustainability and digital innovation.",
+          "Early-career Business Development professional based in Stockholm, Sweden.",
       },
     ],
   }),
